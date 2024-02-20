@@ -1,0 +1,65 @@
+program pointer2_42;
+type
+	LinkedListOfCharsPtr = ^LinkedListOfChars;
+	LinkedListOfChars = record
+		symbol: char;
+		next: LinkedListOfCharsPtr;
+	end;
+	LinkedListOfWordsPtr = ^LinkedListOfWords;
+	LinkedListOfWords = record
+		NewWord: LinkedListOfCharsPtr;
+		NextWord: LinkedListOfWordsPtr;
+	end;
+var
+	OneWord, tmp1, output_test: LinkedListOfCharsPtr;
+	OneSentence, tmp2, output_test_sentence: LinkedListOfWordsPtr;
+	c: char;
+begin
+	{Сделать список списков. 
+	В одном храняться слова предложенияб а во вложенном списке буквы слов. 
+	Первый список выводить в обратном порядкею}
+	OneWord := nil;
+	OneSentence := nil;
+	while not eof do
+	begin
+		read(c);
+		if c <> ' ' then
+		begin
+			if OneWord = nil then
+			begin
+				new(OneWord);
+				tmp1 := OneWord;
+				output_test := OneWord;
+			end
+			else
+			begin
+				new(tmp1^.next);
+				tmp1 := tmp1^.next;
+			end;
+			tmp1^.symbol := c;
+			tmp1^.next := nil
+		end
+		else
+		begin
+			if OneSentence = nil then
+			begin
+				new(OneSentence);
+				tmp2 := OneSentence;
+				output_test_sentence := OneSentence;
+			end
+			else
+			begin
+				new(tmp2^.NextWord);
+				tmp2 := tmp2^.NextWord;
+			end;
+			tmp2^.NewWord := OneWord;
+			tmp2^.NextWord = nil;
+		end;
+	end;
+
+	while output_test_sentence <> nil do
+	begin
+		writeln(output_test_sentence^.NewWord);
+		output_test_sentence := output_test_sentence^.NextWord;;
+	end;	
+end.

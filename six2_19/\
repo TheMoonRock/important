@@ -1,0 +1,37 @@
+program hello;
+var
+	c, t: char;
+	know, print: boolean;
+	b, y: integer;
+begin
+	y := 0;
+	b := 0;
+	t := ' ';
+	know := false;
+	print := false;
+
+	while not eof do
+	begin
+		read(c);
+		b := b + 1;
+		if c = #10 then
+		begin
+			if know and print then
+				writeln;
+			know := false;
+		end
+		else
+		begin
+			if c = '(' then
+				b := b + 1;
+			if c =	')' then
+				y := y + 1;
+		end;
+	end;
+	if b <> y then
+		writeln('NO')
+	else
+	begin
+		writeln('YES');
+	end;
+end.

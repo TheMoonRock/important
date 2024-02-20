@@ -1,0 +1,36 @@
+%include "stud_io.inc"
+global  _start
+
+section .data
+num1    db  10
+nothing db  0
+mulnum  db  0
+
+section .bss
+buf1    resb    10
+
+section .text
+_start: mov     edx,  buf1
+        xor     ecx, ecx
+st:     GETCHAR
+        cmp     eax, " "
+        je      efn
+        ;cmp     eax, 10
+        ;je      efnew
+        mov     [edx], al
+        INC     edx
+        xor     eax, eax
+        jmp     st
+
+efn:   dec     edx
+
+efn1:   mov     eax, 10
+        xor     ebx, ebx
+        mov     ebx, [edx]
+        inc     ecx
+
+efn2:   dec     edx
+looplp: mul     eax
+        loop looplp
+
+fin:    FINISH

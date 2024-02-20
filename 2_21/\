@@ -1,0 +1,28 @@
+program alpha2_21;
+var
+	abc: string;
+	c, t: char;
+
+begin
+	t := ' ';
+	abc := '';
+	while not eof do
+	begin
+		read(c);
+		if c = #10 then
+			writeln;
+		if (((c = ' ') or (c = #9) or (c = #10)) and (c <> t)) then
+		begin
+			if length(abc) = 3 then
+			begin
+				write(abc);
+			end;
+			abc := '';
+		end;
+		if (((c = ' ') or (c = #9) or (c = #10)) and (c = t)) then
+			abc := '';
+	t := c;
+	if ((c <> ' ') or (c <> #9)) then
+	abc := abc + c;
+	end;
+end.
