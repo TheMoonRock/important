@@ -29,7 +29,7 @@ efn:   dec     edi
 efn1:	xor     ebx, ebx		;обнуляем ebx
 		sub		byte [edi], 48	;превращаем код символа в число
         mov     ebx, [edi]		;take next number
-        inc     ecx				; ECX - place number
+        ;inc     ecx				; ECX - place number
 		dec		edi
 
 		mov		[firstnumber], EBX ;Заносим EBX в переменную и освобод. регистр
@@ -51,12 +51,27 @@ efn2:	xor		eax, eax ;очищаем EAX
 
 		add		[firstnumber], eax
 
-lfn:	PUTCHAR	"*"
-		dec		byte [firstnumber]
-		cmp		byte [firstnumber], 0
-		jne		lfn
+;lfn:	PUTCHAR	"*"
+;		dec		byte [firstnumber]
+;		cmp		byte [firstnumber], 0
+;		jne		lfn
+
+		;inc		ecx
+
+;10x10 ECX раз. Собираем оставшуюся часть числа
+		inc		ecx ;ECX = 1
+
+efn3:	xor		eax, eax
+		xor		ebx, ebx
+		mov		eax, 10
+		dec		edi
+		sub		byte [edi], 48
+		movzx	ebx, byte [edi]
+		mul		ebx
+;TODO цикл степени 10
+;TODO цикл сборки числа
+		add		[firstnumber], eax
 
 		inc		ecx
-		dec		edi
 
 fin:    FINISH
