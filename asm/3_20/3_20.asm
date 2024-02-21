@@ -3,10 +3,11 @@ global  _start
 
 section .data
 num1    db  10
-nothing db  0
+nothing dw  0
 mulnum  db  0
 tmp	db	0
 firstnumber	dw	0
+ecxstorage	db	0
 
 section .bss
 buf1    resb    10
@@ -23,6 +24,7 @@ st:     GETCHAR
         ;je      efnew
         mov     [edi], al
         INC     edi
+		inc		byte [ecxstorage]
         xor     eax, eax
         jmp     st
 
@@ -33,7 +35,7 @@ efn1:	xor     ebx, ebx		;обнуляем ebx
         mov     ebx, [edi]		;take next number
         ;inc     ecx				; ECX - place number
 		dec		edi
-
+		dec		byte [ecxstorage]
 		mov		[firstnumber], EBX ;Заносим EBX в переменную и освобод. регистр
 
 ;lfntmp:	PUTCHAR	"*"
@@ -50,7 +52,7 @@ efn2:	xor		eax, eax ;очищаем EAX
 		sub		byte [edi], 48	;Превращаем код символа в число
 		movzx		ebx, byte [edi] ; ????? Вроде как преобразование данных
 		mul		ebx		 ; умножаем ebx на 10(eax)
-
+		dec		byte [ecxstorage]
 		add		[firstnumber], eax
 
 ;lfn:	PUTCHAR	"*"
@@ -66,26 +68,28 @@ efn2:	xor		eax, eax ;очищаем EAX
 efn3:	xor		eax, eax	;очистка eax
 		xor		edx, edx	;очистка edx
 		xor		ebx, ebx	;очистка ebx
-		mov		eax, 10		;множитель. заносим 10 в eax 
-		mov		[mulnum], ecx
+		mov		eax, 10		;множитель. заносим 10 в eax
+		mov		[tmp], ecx
 mten:	mul		byte [num1]
-		loop	mten ; loop 10x10
-		mov		ecx, [mulnum]
+		loop	mten
+		mov	 ecx, [tmp]
 		dec		edi
 		sub		byte [edi], 48
 		movzx	ebx, byte [edi]
 		mul		ebx
+		dec		byte [ecxstorage]
 ;TODO цикл сборки числа
 ;EDX ??????????
 ; Сначала тестируем вывод цикла степени (регистр EAX)
 ; Затем тест цикла сборки числа
 ; TODO Проверить правильность счётчиков [mulnum], ecx
 ; edi - buf1 проверить значение выражения
+; EDX задействуется в умножении. Происходит конфликт
+; TODO EDX:EAX решить проблему с выводом
+		mov		ebx, edx
+		add		[firstnumber], eax ;даёт бесконечность. Другие регистры дают ноль.
 
-		add		[firstnumber], eax
-
-		inc		ecx
-		cmp		edi, [nothing+1]
+		cmp		byte [ecxstorage], 0
 		jne		efn3
 
 lfnmul:	PUTCHAR "*"
