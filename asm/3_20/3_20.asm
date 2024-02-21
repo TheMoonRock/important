@@ -64,12 +64,18 @@ efn2:	xor		eax, eax ;очищаем EAX
 efn3:	xor		eax, eax
 		xor		ebx, ebx
 		mov		eax, 10
+mten:	mul		byte [num1]
+		loop	mten ; loop 10x10
 		dec		edi
 		sub		byte [edi], 48
 		movzx	ebx, byte [edi]
 		mul		ebx
 ;TODO цикл степени 10
 ;TODO цикл сборки числа
+
+; Сначала тестируем вывод цикла степени (регистр EAX)
+; Затем тест цикла сборки числа
+
 		add		[firstnumber], eax
 
 		inc		ecx
