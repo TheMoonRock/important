@@ -5,13 +5,15 @@ section .data
 num1    db  10
 nothing db  0
 mulnum  db  0
-firstnumber	db	0
+tmp	db	0
+firstnumber	dw	0
 
 section .bss
 buf1    resb    10
 
 section .text
 _start: mov     edi,  buf1
+		mov		[nothing], edi
         xor     ecx, ecx
 st:     GETCHAR
         cmp     eax, " "
@@ -61,23 +63,33 @@ efn2:	xor		eax, eax ;очищаем EAX
 ;10x10 ECX раз. Собираем оставшуюся часть числа
 		inc		ecx ;ECX = 1
 
-efn3:	xor		eax, eax
-		xor		ebx, ebx
-		mov		eax, 10
+efn3:	xor		eax, eax	;очистка eax
+		xor		edx, edx	;очистка edx
+		xor		ebx, ebx	;очистка ebx
+		mov		eax, 10		;множитель. заносим 10 в eax 
+		mov		[mulnum], ecx
 mten:	mul		byte [num1]
 		loop	mten ; loop 10x10
+		mov		ecx, [mulnum]
 		dec		edi
 		sub		byte [edi], 48
 		movzx	ebx, byte [edi]
 		mul		ebx
-;TODO цикл степени 10
 ;TODO цикл сборки числа
-
+;EDX ??????????
 ; Сначала тестируем вывод цикла степени (регистр EAX)
 ; Затем тест цикла сборки числа
+; TODO Проверить правильность счётчиков [mulnum], ecx
+; edi - buf1 проверить значение выражения
 
 		add		[firstnumber], eax
 
 		inc		ecx
+		cmp		edi, [nothing+1]
+		jne		efn3
 
+lfnmul:	PUTCHAR "*"
+		dec		dword [firstnumber]
+		cmp		dword [firstnumber], 0
+		jne		lfnmul
 fin:    FINISH
