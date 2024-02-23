@@ -86,6 +86,7 @@ mten:	mul		byte [num1]
 ; edi - buf1 проверить значение выражения
 ; EDX задействуется в умножении. Происходит конфликт
 ; TODO EDX:EAX решить проблему с выводом
+;for git commit
 		mov		ebx, edx
 		add		[firstnumber], eax ;даёт бесконечность. Другие регистры дают ноль.
 
