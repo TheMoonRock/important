@@ -9,8 +9,8 @@ _start: xor     esi, esi
         xor     edx, edx
 
 str:    GETCHAR
-        cmp     eax, 10
-        je      fin
+        cmp     eax, " "
+        je      
 
         sub     eax, 48
         mov     ecx, 10
