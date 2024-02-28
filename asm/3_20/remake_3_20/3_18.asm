@@ -2,7 +2,7 @@
 global  _start
 
 section	.data
-num1	db	10
+num1	dd	10
 
 section .text
 _start: xor     esi, esi
@@ -31,12 +31,14 @@ next:   mov     eax, 10
 
         jmp     str
 
-fx:		mov	[num1], esi
+fx:		mov		edx, [esi]
+		xor		esi, esi
+		mov		[esi], edx
 
-fin:    cmp     byte [num1], 0
+fin:    cmp     byte [edx], 0
         je      fin1
         PUTCHAR "*"
-        sub     byte [num1], 1
+        sub     byte [edx], 1
         jmp     fin
 
 fin1:   PUTCHAR 10
