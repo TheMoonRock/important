@@ -1,5 +1,6 @@
 %include "stud_io.inc"
 global  _start
+extern	str
 
 section	.data
 num1	dd	10
@@ -15,6 +16,7 @@ rsa	resb	10
 rma	resb	10
 
 section .text
+;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 _start: xor     esi, esi
         xor     ebx, ebx
         xor     eax, eax
@@ -22,28 +24,8 @@ _start: xor     esi, esi
         xor     edx, edx
 ; ут надо передать адресс начала строки через подпрограмму вида [eax+8] и длину строки
 ; длину строки передать как колво элементов массива
-str:    GETCHAR
-        cmp     eax, " "
-        je		some
 
-		cmp		eax, 10
-		je		some1
-
-        sub     eax, 48
-        mov     ecx, 10
-        mov     ebx, eax
-
-        cmp     esi, 0
-        jne     next
-        add     esi, ebx
-        jmp     str
-
-next:   mov     eax, 10
-        mul     esi
-        add     eax, ebx
-        mov     esi, eax
-
-        jmp     str
+.some0:	call 	str
 
 some:	mov		[num1],	esi
 		jmp		_start
