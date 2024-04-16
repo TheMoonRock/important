@@ -1,9 +1,6 @@
 global	summator
 
 section	.text
-summator:	pop		ebx
-			pop		eax
-
-			add		eax, ebx
-			leave
-			ret
+summator:
+		add		ebx, edx
+		ret

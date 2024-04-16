@@ -3,17 +3,15 @@ global	_start
 extern	summator
 
 section	.text
-_start:	mov		eax, 5
+_start:	mov		edx, 5
 		mov		ebx, 5
-		
-		push	eax
-		push	ebx
 
 		call	summator
 
-		mov		ecx, eax
+lp:		cmp		ebx, 0
+		je		fin
+		PUTCHAR	'*'
+		dec		ebx
+		jmp		lp
 
-lp:		PUTCHAR	"*"
-		loop lp
-
-		FINISH
+fin:	FINISH
